@@ -15,23 +15,37 @@ The component should show the first tab content by default
 import {React, Component} from 'react';
 
 class Tabs extends Component{
-    static defaultProps = { tabs: ["bullshit"] };
-    render(){
-        const buttons = this.props.tabs.map((tab, index) => (
-            <button key={index}>
+    static defaultProps = { 
+        tabs: [],
+    };
+    state = {
+        currentTabIndex: 0
+    };
+    handleButtonClick = (index) => {
+        console.log('button clicked!')
+        this.setState({ currentTabIndex: index })
+    }
+    renderButtons(){
+        return this.props.tabs.map((tab, index) => (
+            <button key={index} onClick={() => this.handleButtonClick(index)}>
               {tab.name}
             </button>
-        ))
-        const currentTab = this.props.tabs[0]
+          ))
+    }
+    renderContent(){
+        const currentTab = this.props.tabs[this.state.currentTabIndex]
+        return (
+          <div className='content'>
+            {currentTab.content}
+          </div>
+        )
+    }
+    render(){
         return(
             <div>
-                {buttons}
-                {this.props.tabs.length && (
-                    <div className='content'>
-                        {currentTab.content}
-                    </div>
-                )}
-            </div>
+                {this.renderButtons()}
+                {!!this.props.tabs.length && this.renderContent()}
+          </div>
         )
     }
 }
