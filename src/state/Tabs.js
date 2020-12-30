@@ -15,19 +15,25 @@ The component should show the first tab content by default
 import {React, Component} from 'react';
 
 class Tabs extends Component{
-    constructor(props) {
-        super(props)
-    }
-
+    static defaultProps = { tabs: ["bullshit"] };
     render(){
+        const buttons = this.props.tabs.map((tab, index) => (
+            <button key={index}>
+              {tab.name}
+            </button>
+        ))
+        const currentTab = this.props.tabs[0]
         return(
             <div>
-
+                {buttons}
+                {this.props.tabs.length && (
+                    <div className='content'>
+                        {currentTab.content}
+                    </div>
+                )}
             </div>
         )
     }
-
 }
-
 
 export default Tabs;
